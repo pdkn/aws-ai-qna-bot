@@ -120,6 +120,9 @@ exports.parse=async function(req){
     return out
 }
 exports.assemble=function(request,response){
+
+    let sessionAttributes = _.get(response,'session',{});
+
     return {
         version:'1.0',
         response:{
@@ -141,9 +144,9 @@ exports.assemble=function(request,response){
                 title:_.get(response,"card.title") || request.question || "Image",
                 content:_.has(response.card,'subTitle')? response.card.subTitle +"\n\n" + response.plainMessage:response.plainMessage
             },
-            shouldEndSession:false
+            shouldEndSession:_.get(sessionAttributes,'shouldEndSession',false)
         },
-        sessionAttributes:_.get(response,'session',{})
+        sessionAttributes:sessionAttributes
     }
 }
 

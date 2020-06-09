@@ -34,8 +34,8 @@
               :pick="required"
               path="edit"
             )
-            v-expansion-panel.elevation-0
-              v-expansion-panel-content( style="display:block")
+            v-expansion-panel( expand ).elevation-0
+              v-expansion-panel-content( style="display:block" value="true")
                 div( slot="header") Advanced
                 schema-input( 
                   v-model="tmp"

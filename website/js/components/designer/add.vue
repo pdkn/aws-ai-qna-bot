@@ -29,8 +29,8 @@
               path="add"
               ref="requiredInput"
             )
-            v-expansion-panel.elevation-0
-              v-expansion-panel-content
+            v-expansion-panel( expand ).elevation-0
+              v-expansion-panel-content( value="true")
                 div( slot="header") Advanced
                 schema-input( 
                   v-model="data[type]"

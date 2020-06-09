@@ -1,6 +1,6 @@
 <template lang='pug'>
   v-card.root-card
-    v-card-title.pa-0.cyan
+    v-card-title.pa-0.primary
       v-layout(row)
         v-tabs(
           v-model="active" 

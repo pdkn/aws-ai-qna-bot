@@ -21,7 +21,10 @@ exports.parse=async function(req){
 }
 
 exports.assemble=function(request,response){
+    // Check standard buttons prop
     var filteredButtons = _.get(response.card,"buttons",[])
+
+    // Remove buttons that don't have text & value properties
     for (var i = filteredButtons.length - 1; i >= 0; --i){
         if (!(filteredButtons[i].text && filteredButtons[i].value)){
             filteredButtons.splice(i,1)
@@ -36,7 +39,7 @@ exports.assemble=function(request,response){
                 contentType:response.type,
                 content:response.message
             },
-            responseCard:isCard(response.card) && (_.get(response.card,"imageUrl","").trim() || filteredButtons.length > 0) ? {
+            responseCard:isCard(response.card) ? {
                 version:"1",
                 contentType:"application/vnd.amazonaws.card.generic",
                 genericAttachments:[_.pickBy({
@@ -44,6 +47,9 @@ exports.assemble=function(request,response){
                     subTitle:_.get(response.card,'subTitle'),
                     imageUrl:response.card.imageUrl,
                     buttons: _.has(filteredButtons, [0]) ? filteredButtons : null
+                }, (v, k) => {
+                    if (k === "title") return true
+                    return v != null && v !== ""
                 })]
             } : null
         })

@@ -223,14 +223,16 @@ module.exports = async function (req, res) {
             }
         }
         console.log(res.message)
-        var card = _.get(res, "result.r.title") ? res.result.r : null
-
-        if (card) {
-            res.card.send = true
-            res.card.title = _.get(card, 'title')
-            res.card.subTitle = _.get(card, 'subTitle')
-            res.card.imageUrl = _.get(card, 'imageUrl')
-            res.card.buttons = _.get(card, 'buttons')
+        console.log("result", res.result)
+        var card = _.get(res,"result.r", {})
+        const cleanedCard = _.pickBy(card , (v, k) => { return v != null && v !== "" })
+        console.log("cleanedCard", cleanedCard)
+        if(!_.isEmpty(cleanedCard)){
+            res.card.send=true
+            res.card.title=_.get(card,'title')
+            res.card.subTitle=_.get(card,'subTitle')
+            res.card.imageUrl=_.get(card,'imageUrl')
+            res.card.buttons=_.get(card,'buttons')
         }
 
 
